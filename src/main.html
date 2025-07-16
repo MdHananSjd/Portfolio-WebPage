@@ -5,26 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Muhammad Hanan Sajid | Portfolio</title>
   <link href="./output.css" rel="stylesheet">
+  <!-- Add Font Awesome for social media icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-800 text-white">
   <!-- 🌐 Navbar -->
-  <header class="fixed top-0 w-full bg-black text-white shadow-md ">
+  <header class="fixed top-0 w-full bg-white/20 backdrop-blur-sm text-white shadow-md z-50">
     <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <!-- Left: Your name -->
       <div class="text-xl font-bold">Hanan</div>
-      <ul class="flex space-x-6 text-sm font-medium">
-        <li><a href="#hero" class="hover:text-yellow-400">Home</a></li>
-        <li><a href="#about" class="hover:text-yellow-400">About</a></li>
-        <li><a href="#projects" class="hover:text-yellow-400">Projects</a></li>
-        <li><a href="#education" class="hover:text-yellow-400">Education</a></li>
-        <li><a href="#contact" class="hover:text-yellow-400">Contact</a></li>
+      
+      <!-- Center: Navigation links -->
+      <ul class="flex space-x-6 text-sm font-medium items-center">
+        <li><a href="#hero" class="hover:text-yellow-400 transition-colors duration-300">Home</a></li>
+        <li><a href="#about" class="hover:text-yellow-400 transition-colors duration-300">About</a></li>
+        <li><a href="#projects" class="hover:text-yellow-400 transition-colors duration-300">Projects</a></li>
+        <li><a href="#education" class="hover:text-yellow-400 transition-colors duration-300">Education</a></li>
+        <li><a href="#contact" class="hover:text-yellow-400 transition-colors duration-300">Contact</a></li>
       </ul>
+      <!-- Right: Social media icons -->
+      <div class="flex space-x-4">
+        <a href="https://github.com/MdHananSjd" target="_blank" class="text-white hover:text-yellow-400 transition-colors duration-300">
+          <i class="fab fa-github text-lg"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/mdhnnsjd/" target="_blank" class="text-white hover:text-yellow-400 transition-colors duration-300">
+          <i class="fab fa-linkedin text-lg"></i>
+        </a>
+        <a href="mailto:mdhanansjd+portfolio@gmail.com" class="text-white hover:text-yellow-400 transition-colors duration-300">
+          <i class="fas fa-envelope text-lg"></i>
+        </a>
+      </div>
     </nav>
   </header>
 
 
   <!-- 🎯 Hero Section with Dynamic Text -->
   <div>
-    <div class="pt-24">
+    <div class="pt-8">
       <h1>Hey viewer! I'm Hanan</h1>
       I am a <span class="typed-text"></span><span class="cursor"></span>
     </div>
