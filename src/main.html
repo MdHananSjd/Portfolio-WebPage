@@ -7,37 +7,35 @@
   <link href="./output.css" rel="stylesheet">
   <!-- Add Font Awesome for social media icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
-<body class="bg-gray-800 text-white pb-16">
+<body class="bg-black text-white pb-16">
   <!-- 🌐 Navbar -->
-  <header class="fixed top-0 w-full bg-black/70 backdrop-blur-md text-white shadow-md z-50">
+  <header class="fixed top-0 w-full bg-white/30 backdrop-blur-sm text-white shadow-sm z-50">
     <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <!-- Left: Your name -->
-      <div class="text-xl font-bold">Hanan</div>
+      <div class="text-xl font-bold text-white">Hanan</div>
       
       <!-- Center: Navigation links -->
       <ul class="flex space-x-6 text-sm font-medium items-center">
-        <li><a href="#hero" class="hover:text-yellow-400 transition-colors duration-300">Home</a></li>
-        <li><a href="#about" class="hover:text-yellow-400 transition-colors duration-300">About</a></li>
-        <li><a href="#projects" class="hover:text-yellow-400 transition-colors duration-300">Projects</a></li>
-        <li><a href="#education" class="hover:text-yellow-400 transition-colors duration-300">Education</a></li>
-        <li><a href="#contact" class="hover:text-yellow-400 transition-colors duration-300">Contact</a></li>
+        <li><a href="#hero" class="text-white hover:text-blue-400 transition-colors duration-300">Home</a></li>
+        <li><a href="#about" class="text-white hover:text-blue-400 transition-colors duration-300">About</a></li>
+        <li><a href="#projects" class="text-white hover:text-blue-400 transition-colors duration-300">Projects</a></li>
+        <li><a href="#education" class="text-white hover:text-blue-400 transition-colors duration-300">Education</a></li>
+        <li><a href="#contact" class="text-white hover:text-blue-400 transition-colors duration-300">Contact</a></li>
       </ul>
       
       <!-- Right: Social media icons -->
       <div class="flex space-x-4">
-        <a href="https://github.com/yourusername" target="_blank" class="text-white hover:text-yellow-400 transition-colors duration-300">
+        <a href="https://github.com/yourusername" target="_blank" class="text-white hover:text-blue-400 transition-colors duration-300">
           <i class="fab fa-github text-lg"></i>
         </a>
-        <a href="https://linkedin.com/in/yourusername" target="_blank" class="text-white hover:text-yellow-400 transition-colors duration-300">
+        <a href="https://linkedin.com/in/yourusername" target="_blank" class="text-white hover:text-blue-400 transition-colors duration-300">
           <i class="fab fa-linkedin text-lg"></i>
         </a>
-        <a href="https://twitter.com/yourusername" target="_blank" class="text-white hover:text-yellow-400 transition-colors duration-300">
+        <a href="https://twitter.com/yourusername" target="_blank" class="text-white hover:text-blue-400 transition-colors duration-300">
           <i class="fab fa-twitter text-lg"></i>
         </a>
-        <a href="mailto:your.email@example.com" class="text-white hover:text-yellow-400 transition-colors duration-300">
+        <a href="mailto:your.email@example.com" class="text-white hover:text-blue-400 transition-colors duration-300">
           <i class="fas fa-envelope text-lg"></i>
         </a>
       </div>
@@ -47,39 +45,28 @@
 
   <!-- 🎯 Hero Section with Dynamic Text -->
   <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-    <canvas id="hero-canvas" class="absolute top-0 left-0 -z-10"></canvas>
-    
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
       <div class="mb-8">
-        <h1 class="text-6xl md:text-8xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-yellow-400 bg-clip-text text-transparent animate-pulse mb-4">
+        <h1 class="text-6xl md:text-8xl font-bold text-white mb-4">
           Hey viewer!
         </h1>
-        <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-[0_0_10px_rgba(0,255,255,0.8)]">
-          I'm <span class="bg-gradient-to-r from-cyan-400 via-purple-500 to-yellow-400 bg-clip-text text-transparent">Hanan</span>
+        <h2 class="text-4xl md:text-6xl font-bold text-white mb-6">
+          I'm <span class="text-white">Muhammad Hanan Sajid</span>
         </h2>
       </div>
       
       <div class="text-xl md:text-2xl text-gray-300 mb-8">
-        I am a <span id="typed-text" class="text-cyan-400 font-semibold"></span><span id="cursor" class="text-cyan-400 animate-ping">|</span>
+        I am a <span id="typed-text" class="text-white font-bold"></span><span id="cursor" class="text-white animate-ping">|</span>
       </div>
       
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <button class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold rounded-full hover:from-cyan-600 hover:to-purple-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
+        <button class="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transform hover:scale-105 transition-all duration-300 shadow-lg">
           View My Work
         </button>
-        <button class="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300">
+        <button class="px-8 py-3 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300">
           Get In Touch
         </button>
       </div>
-    </div>
-    
-    <!-- Floating particles -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-70 animate-bounce" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
-      <div class="absolute w-1 h-1 bg-purple-400 rounded-full opacity-70 animate-bounce" style="top: 60%; left: 80%; animation-delay: 1s;"></div>
-      <div class="absolute w-1 h-1 bg-yellow-400 rounded-full opacity-70 animate-bounce" style="top: 80%; left: 20%; animation-delay: 2s;"></div>
-      <div class="absolute w-2 h-2 bg-cyan-300 rounded-full opacity-50 animate-pulse" style="top: 30%; left: 70%; animation-delay: 0.5s;"></div>
-      <div class="absolute w-2 h-2 bg-purple-300 rounded-full opacity-50 animate-pulse" style="top: 70%; left: 30%; animation-delay: 1.5s;"></div>
     </div>
   </section>
 
@@ -120,60 +107,8 @@
   </footer>
 
   <script>
-    // Three.js Hero Animation
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('hero-canvas'), alpha: true });
-    
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    
-    // Create iconic neon torus
-    const geometry = new THREE.TorusGeometry(3, 0.8, 16, 100);
-    
-    // Enhanced neon material
-    const material = new THREE.MeshBasicMaterial({ 
-      color: 0x00ffff, 
-      wireframe: true,
-      transparent: true,
-      opacity: 0.8
-    });
-    
-    const torus = new THREE.Mesh(geometry, material);
-    
-    // Position torus for iconic look
-    torus.position.set(0, 0, -5);
-    torus.rotation.x = Math.PI / 6; // Slight tilt for better view
-    
-    scene.add(torus);
-    
-    camera.position.z = 8;
-    
-    // Slower, more elegant animation
-    function animate() {
-      requestAnimationFrame(animate);
-      
-      // Reduced rotation speed for iconic look
-      torus.rotation.y += 0.003;
-      torus.rotation.z += 0.001;
-      
-      // Gentle floating motion
-      torus.position.y += Math.sin(Date.now() * 0.0005) * 0.005;
-      
-      renderer.render(scene, camera);
-    }
-    
-    animate();
-    
-    // Responsive canvas
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-    
     // Typing animation
-    const roles = ['Full Stack Developer', 'UI/UX Designer', 'Creative Coder', 'Problem Solver'];
+    const roles = ['Front End Developer', 'UI/UX Designer', 'Creative Coder', 'ML Enthusiast', 'Problem Solver'];
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
