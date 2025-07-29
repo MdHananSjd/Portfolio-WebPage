@@ -8,15 +8,33 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    body{
       font-family: 'Exo 2', sans-serif;
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
     }
-    .futuristic-heading {
+
+    .futuristic-heading{
       font-family: 'Orbitron', monospace;
     }
+
+    .fade-out-active{
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+      pointer-events: none;
+    }
+
+    .no-scroll{
+      overflow: hidden;
+    }
+    .body-hidden {
+      opacity: 0;
+      transition: opacity 0.6s ease-out; /* Define your desired fade-in duration here */
+    }
+
   </style>
 </head>
-<body class="bg-black text-white pb-16">
+<body class="bg-black text-white pb-16 body-hidden">
   <header class="fixed top-0 w-full bg-purple-900/40 backdrop-blur-sm text-white shadow-lg z-50">
     <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="text-xl font-bold text-purple-200 futuristic-heading">Hanan</div>
@@ -68,7 +86,7 @@
   </section>
 
   <footer class="fixed bottom-0 w-full bg-purple-900/30 backdrop-blur-md text-purple-200 text-center py-3 z-40">
-    <p>© 2025 Muhammad Hanan Sajid. All rights reserved.</p>
+    <p>© 2025 MdHananSjd. All rights reserved.</p>
   </footer>
 
   <script>
@@ -102,6 +120,40 @@
     }
     
     typeText();
+    document.addEventListener('DOMContentLoaded', () => {
+      const htmlElement = document.documentElement; // Get the HTML element
+
+      // 1. Fade In on Page Load
+      // Remove no-scroll if it was added from a previous fade-out (e.g., if user used back button)
+      htmlElement.classList.remove('no-scroll'); 
+      document.body.style.opacity = '1'; // Trigger fade-in
+
+      // 2. Fade Out on Navigation
+      const navLinks = document.querySelectorAll('nav a');
+      const fadeOutDuration = 500; // milliseconds, MUST MATCH CSS transition duration for .fade-out-active
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+          const targetUrl = this.href;
+
+          // Check if it's an external link or a download
+          if (this.target === '_blank' || this.download || targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:')) {
+            return; // Let browser handle it normally without fade-out
+          }
+
+          event.preventDefault(); // Prevent default navigation immediately
+
+          htmlElement.classList.add('no-scroll'); // Prevent scrolling during transition
+          document.body.classList.add('fade-out-active'); // Apply fade-out class
+
+          setTimeout(() => {
+            window.location.href = targetUrl; // Navigate AFTER fade-out animation should complete
+          }, fadeOutDuration); 
+        });
+      });
+    });
+
+    
   </script>
 </body>
 </html>
