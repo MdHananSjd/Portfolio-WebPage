@@ -31,6 +31,98 @@
       opacity: 0;
       transition: opacity 0.5s ease-out; /* Define your desired fade-in duration here */
     }
+
+    /* Mobile menu styles */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 2rem;
+    }
+
+    .mobile-menu a {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+      color: #c4b5fd;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-menu a:hover {
+      color: #a855f7;
+    }
+
+    .mobile-menu a.active {
+      color: #a855f7;
+      font-weight: bold;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 101;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #c4b5fd;
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    /* Hide desktop nav on mobile */
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /* Show desktop nav on larger screens */
+    @media (min-width: 769px) {
+      .mobile-menu {
+        display: none;
+      }
+    }
+
   </style>
 </head>
 <body class="bg-black text-white pb-16 body-hidden">
@@ -38,7 +130,8 @@
         <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div class="text-xl font-bold text-purple-200 futuristic-heading">Hanan</div>
           
-          <ul class="flex space-x-6 text-sm font-medium items-center">
+          <!-- Desktop Navigation -->
+          <ul class="desktop-nav flex space-x-6 text-sm font-medium items-center">
             <li><a href="index.html" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">Home</a></li>
             <li><a href="about.html" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">About</a></li>
             <li><a href="projects.html" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">Projects</a></li>
@@ -46,7 +139,8 @@
             <li><a href="contact.html" class="text-purple-400 font-bold transition-colors duration-300">Contact</a></li>
           </ul>
           
-          <div class="flex space-x-4">
+          <!-- Desktop Social Links -->
+          <div class="desktop-nav flex space-x-4">
             <a href="https://github.com/MdHananSjd" target="_blank" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">
               <i class="fab fa-github text-lg"></i>
             </a>
@@ -57,8 +151,39 @@
               <i class="fas fa-envelope text-lg"></i>
             </a>
           </div>
+
+          <!-- Mobile Hamburger Menu -->
+          <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </nav>
       </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-content">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="education.html">Education</a>
+      <a href="contact.html" class="active">Contact</a>
+      
+      <!-- Mobile Social Links -->
+      <div class="flex space-x-6 mt-8">
+        <a href="https://github.com/MdHananSjd" target="_blank" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">
+          <i class="fab fa-github text-2xl"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/mdhnnsjd/" target="_blank" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">
+          <i class="fab fa-linkedin text-2xl"></i>
+        </a>
+        <a href="mailto:your.email@example.com" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">
+          <i class="fas fa-envelope text-2xl"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <section id="contact" class="min-h-screen flex items-center justify-center py-16 px-4">
     <div class="max-w-xl mx-auto text-center bg-purple-800/20 p-10 rounded-xl shadow-xl border border-purple-700">
@@ -118,38 +243,68 @@
     <p>© 2025 MdHananSjd. All rights reserved.</p>
   </footer>
 
-  <script>document.addEventListener('DOMContentLoaded', () => {
-    const htmlElement = document.documentElement; // Get the HTML element
+  <script>
+    // Mobile menu functionality
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
 
-    // 1. Fade In on Page Load
-    // Remove no-scroll if it was added from a previous fade-out (e.g., if user used back button)
-    htmlElement.classList.remove('no-scroll'); 
-    document.body.style.opacity = '1'; // Trigger fade-in
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.classList.toggle('no-scroll');
+    });
 
-    // 2. Fade Out on Navigation
-    const navLinks = document.querySelectorAll('nav a');
-    const fadeOutDuration = 500; // milliseconds, MUST MATCH CSS transition duration for .fade-out-active
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', function(event) {
-        const targetUrl = this.href;
-
-        // Check if it's an external link or a download
-        if (this.target === '_blank' || this.download || targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:')) {
-          return; // Let browser handle it normally without fade-out
-        }
-
-        event.preventDefault(); // Prevent default navigation immediately
-
-        htmlElement.classList.add('no-scroll'); // Prevent scrolling during transition
-        document.body.classList.add('fade-out-active'); // Apply fade-out class
-
-        setTimeout(() => {
-          window.location.href = targetUrl; // Navigate AFTER fade-out animation should complete
-        }, fadeOutDuration); 
+    // Close mobile menu when clicking on a link
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.classList.remove('no-scroll');
       });
     });
-  });
+
+    // Close mobile menu when clicking outside
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const htmlElement = document.documentElement; // Get the HTML element
+
+      // 1. Fade In on Page Load
+      // Remove no-scroll if it was added from a previous fade-out (e.g., if user used back button)
+      htmlElement.classList.remove('no-scroll'); 
+      document.body.style.opacity = '1'; // Trigger fade-in
+
+      // 2. Fade Out on Navigation
+      const navLinks = document.querySelectorAll('nav a, .mobile-menu a');
+      const fadeOutDuration = 500; // milliseconds, MUST MATCH CSS transition duration for .fade-out-active
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+          const targetUrl = this.href;
+
+          // Check if it's an external link or a download
+          if (this.target === '_blank' || this.download || targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:')) {
+            return; // Let browser handle it normally without fade-out
+          }
+
+          event.preventDefault(); // Prevent default navigation immediately
+
+          htmlElement.classList.add('no-scroll'); // Prevent scrolling during transition
+          document.body.classList.add('fade-out-active'); // Apply fade-out class
+
+          setTimeout(() => {
+            window.location.href = targetUrl; // Navigate AFTER fade-out animation should complete
+          }, fadeOutDuration); 
+        });
+      });
+    });
 
 
   </script>
