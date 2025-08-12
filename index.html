@@ -29,7 +29,30 @@
     }
     .body-hidden {
       opacity: 0;
-      transition: opacity 0.6s ease-out; /* Define your desired fade-in duration here */
+      transition: opacity 0.6s ease-out;
+    }
+
+    /* Smooth scrolling for the entire page */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Section transitions */
+    .section {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Active navigation styling */
+    .nav-link.active {
+      color: #a855f7 !important;
+      font-weight: bold;
     }
 
     /* Mobile menu styles */
@@ -125,18 +148,18 @@
 
   </style>
 </head>
-<body class="bg-black text-white pb-16 body-hidden">
+<body class="bg-black text-white body-hidden">
   <header class="fixed top-0 w-full bg-purple-900/40 backdrop-blur-sm text-white shadow-lg z-50">
     <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="text-xl font-bold text-purple-200 futuristic-heading"> <a href="https://hanan-dev.vercel.app/">Hanan</a></div>
+      <div class="text-xl font-bold text-purple-200 futuristic-heading"> <a href="#home">Hanan</a></div>
       
       <!-- Desktop Navigation -->
       <ul class="desktop-nav flex space-x-6 text-sm font-medium items-center">
-        <li><a href="index.html" class="text-purple-400 font-bold transition-colors duration-300">Home</a></li>
-        <li><a href="about.html" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">About</a></li>
-        <li><a href="projects.html" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">Projects</a></li>
-        <li><a href="education.html" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">Education</a></li>
-        <li><a href="contact.html" class="text-purple-200 hover:text-purple-400 transition-colors duration-300">Contact</a></li>
+        <li><a href="#home" class="nav-link text-purple-400 font-bold transition-colors duration-300">Home</a></li>
+        <li><a href="#about" class="nav-link text-purple-200 hover:text-purple-400 transition-colors duration-300">About</a></li>
+        <li><a href="#projects" class="nav-link text-purple-200 hover:text-purple-400 transition-colors duration-300">Projects</a></li>
+        <li><a href="#education" class="nav-link text-purple-200 hover:text-purple-400 transition-colors duration-300">Education</a></li>
+        <li><a href="#contact" class="nav-link text-purple-200 hover:text-purple-400 transition-colors duration-300">Contact</a></li>
       </ul>
       
       <!-- Desktop Social Links -->
@@ -164,11 +187,11 @@
   <!-- Mobile Menu Overlay -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-content">
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
-      <a href="education.html">Education</a>
-      <a href="contact.html">Contact</a>
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#education" class="nav-link">Education</a>
+      <a href="#contact" class="nav-link">Contact</a>
       
       <!-- Mobile Social Links -->
       <div class="flex space-x-8 mt-8">
@@ -185,8 +208,8 @@
     </div>
   </div>
 
-
-  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Home Section -->
+  <section id="home" class="section min-h-screen flex items-center justify-center overflow-hidden">
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
       <div class="mb-8">
         <h2 class="text-6xl md:text-8xl font-bold text-purple-200 mb-4 futuristic-heading">
@@ -199,12 +222,229 @@
       </div>
       
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a href="projects.html" class="px-8 py-3 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25">
+        <a href="#projects" class="px-8 py-3 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25">
           View My Work
         </a>
-        <a href="contact.html" class="px-8 py-3 border-2 border-purple-500 text-purple-400 font-semibold rounded-full hover:bg-purple-500 hover:text-white transition-all duration-300">
+        <a href="#contact" class="px-8 py-3 border-2 border-purple-500 text-purple-400 font-semibold rounded-full hover:bg-purple-500 hover:text-white transition-all duration-300">
           Get In Touch
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section min-h-screen flex items-center justify-center py-16 px-4">
+    <div class="max-w-3xl text-center">
+      <h2 class="text-5xl md:text-6xl font-bold text-purple-200 mb-6 futuristic-heading">About Me</h2>
+      <p class="text-lg md:text-xl text-purple-300 leading-relaxed mb-8">
+        Hello! I'm <span class="text-purple-500">Muhammad Hanan Sajid</span>, a passionate Developer and a dedicated <span class="text-purple-500">Computer Science Student</span> based in Kochi, <span class="text-purple-500">Studying in Chennai</span>. My journey in technology is fueled by a strong desire to create intuitive and delightful digital experiences.
+      </p>
+      <p class="text-lg md:text-xl text-purple-300 leading-relaxed">
+        Beyond coding, I'm a keen Problem Solver, always eager to tackle new challenges and learn the latest technologies. Whether it's Web development or working with ML Algorithms, I'm committed to building high-quality software that make a real impact.
+      </p>
+      <div class="mt-10">
+        <h3 class="text-3xl font-bold text-purple-300 mb-4 futuristic-heading">My Skills</h3>
+        <div class="flex flex-wrap justify-center gap-4 text-lg">
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">HTML5</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">CSS3</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">JavaScript</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Framer Motion</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Node</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Tailwind CSS</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Bootstrap</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">MongoDB</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Flutter</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Firebase</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Vercel</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">UI/UX Design</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Git/GitHub</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Problem Solving</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Python3</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">C/C++</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Dart</span>
+          <span class="bg-purple-700/30 text-purple-200 px-4 py-2 rounded-full border border-purple-600">Java</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="section min-h-screen py-16 px-4 flex items-center justify-center pt-24">
+    <div class="max-w-6xl mx-auto text-center"> 
+      <h2 class="text-5xl md:text-6xl font-bold text-purple-200 mb-12 futuristic-heading">My Projects</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8"> 
+        
+        <div class="bg-purple-800/20 p-8 rounded-xl shadow-xl border border-purple-700 hover:border-purple-500 transform hover:-translate-y-2 transition-all duration-300">
+          <h3 class="text-3xl font-semibold text-purple-300 mb-4 futuristic-heading">Portfolio Website (Tailwind CSS)</h3>
+          <p class="text-purple-400 mb-6 text-lg">
+            This very portfolio website! Designed with a futuristic aesthetic using Tailwind CSS for rapid UI development and responsive design. Features dynamic text animation.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3 mb-6">
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">HTML5</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">CSS3</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Tailwind CSS</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">JavaScript</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">UI/UX</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Framer Motion</span>
+          </div>
+          <div class="flex justify-center space-x-6">
+            <a href="https://hanan-dev.vercel.app/" target="_blank" class="text-purple-400 hover:text-purple-200 transition-colors duration-300 text-lg">
+              <i class="fas fa-external-link-alt mr-2"></i>Live Site
+            </a>
+            <a href="https://github.com/MdHananSjd/Portfolio-WebPage" target="_blank" class="text-purple-400 hover:text-purple-200 transition-colors duration-300 text-lg">
+              <i class="fab fa-github mr-2"></i>GitHub
+            </a>
+          </div>
+        </div>
+ 
+        <div class="bg-purple-800/20 p-8 rounded-xl shadow-xl border border-purple-700 hover:border-purple-500 transform hover:-translate-y-2 transition-all duration-300">
+          <h3 class="text-3xl font-semibold text-purple-300 mb-4 futuristic-heading">DeepLung: CNN Based Pneumonia Detection Model </h3>
+          <p class="text-purple-400 mb-6 text-lg">
+              An AI Model that uses a Convolutional Neural Network built with TensorFlow, trained with a chest x-ray dataset from Kaggle, to successfully identify pneumonia affected patients with just a single x-ray upload.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3 mb-6">
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Python3</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Pandas</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">MatPlotLib</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">TensorFlow</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Keras</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Kaggle</span>
+          </div>
+          <div class="flex justify-center space-x-6">
+            
+            <a href="https://github.com/MdHananSjd/DeepLung" target="_blank" class="text-purple-400 hover:text-purple-200 transition-colors duration-300 text-lg">
+              <i class="fab fa-github mr-2"></i>GitHub
+            </a>
+          </div>
+        </div>
+        
+        <div class="bg-purple-800/20 p-8 rounded-xl shadow-xl border border-purple-700 hover:border-purple-500 transform hover:-translate-y-2 transition-all duration-300">
+          <h3 class="text-3xl font-semibold text-purple-300 mb-4 futuristic-heading">AI Chatbot Interface</h3>
+          <p class="text-purple-400 mb-6 text-lg">
+            A sleek, minimalist chatbot UI, featuring real-time message display, use of Google Gemini API with LangChain and a customizable theme. Focus on user experience and responsiveness.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3 mb-6">
+           <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">LangChain</span>
+           <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Google Gemini API</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">HTML/CSS</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Javascript</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">UI/UX</span>
+          </div>
+          <span class="text-purple-500">(In development)</span>
+          
+        </div>
+        <div class="bg-purple-800/20 p-8 rounded-xl shadow-xl border border-purple-700 hover:border-purple-500 transform hover:-translate-y-2 transition-all duration-300">
+          <h3 class="text-3xl font-semibold text-purple-300 mb-4 futuristic-heading">Weather Dashboard (API Integration)</h3>
+          <p class="text-purple-400 mb-6 text-lg">
+            A responsive web application that fetches real-time weather data from a third-party API based on user location or city search. Displays current conditions and forecast.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3 mb-6">
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">JavaScript</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">OpenWeather API</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">HTML/CSS</span>
+            <span class="bg-purple-700/40 text-purple-200 text-sm px-3 py-1 rounded-full">Fetch API</span>
+          </div>
+          <span class="text-purple-500">(In development)</span>
+        </div>
+        
+ 
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" class="section min-h-screen flex items-center justify-center py-16 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-5xl md:text-6xl font-bold text-purple-200 mb-12 futuristic-heading">My Education</h2>
+      
+      <div class="space-y-10">
+        <div class="bg-purple-800/20 p-8 rounded-xl shadow-xl border border-purple-700 hover:border-purple-500 transition-all duration-300 text-left">
+          <h3 class="text-3xl font-semibold text-purple-300 mb-2 futuristic-heading">B.Tech in <span class="text-purple-500">Computer Science Engineering</span>, specialized in <span class="text-purple-500">AI and Machine Learning</span></h3>
+          <p class="text-xl text-purple-400 mb-1"><i class="fas fa-university mr-2"></i>VIT University, Chennai, India</p>
+          <p class="text-lg text-purple-500 mb-4"><i class="fas fa-calendar-alt mr-2"></i>Expected Graduation: July 2028</p>
+          <ul class="list-disc list-inside text-purple-300 text-lg space-y-2">
+            <li>Relevant Coursework: Data Structures & Algorithms, Object-Oriented Programming, Web Development, Database Management Systems, Machine Learning Fundamentals.</li>
+            <li>Active member of the University's Toasmasters Club and UI/UX Design Group.</li>
+          </ul>
+        </div>
+
+        <div class="bg-purple-800/20 p-8 rounded-xl shadow-xl border border-purple-700 hover:border-purple-500 transition-all duration-300 text-left">
+          <h3 class="text-3xl font-semibold text-purple-300 mb-2 futuristic-heading">Higher Secondary School</h3>
+          <p class="text-xl text-purple-400 mb-1"><i class="fas fa-school mr-2"></i>Rajagiri Christu Jayanthi Public School, Kochi, India</p>
+          <p class="text-lg text-purple-500 mb-4"><i class="fas fa-calendar-alt mr-2"></i>Graduated: April 2024</p>
+          <ul class="list-disc list-inside text-purple-300 text-lg space-y-2">
+            <li>Majored in Computer Science with a <span class="text-purple-500">92%</span> in my Board examinations.</li>
+            <li><span class="text-purple-500">Captain</span> of the School <span class="text-purple-500">Basketball </span> Team.</li>
+            <li>Participated in inter-school science fairs and coding competitions.</li>
+          </ul>
+        </div>
+
+        <div class="bg-purple-800/20 p-8 rounded-xl shadow-xl border border-purple-700 hover:border-purple-500 transition-all duration-300 text-left">
+          <h3 class="text-3xl font-semibold text-purple-300 mb-2 futuristic-heading">Certified Full Stack Web Developer</h3>
+          <p class="text-xl text-purple-400 mb-1"><i class="fas fa-certificate mr-2"></i>Udemy</p>
+          <p class="text-lg text-purple-500 mb-4"><i class="fas fa-calendar-alt mr-2"></i>Completed: August 2025</p>
+          <ul class="list-disc list-inside text-purple-300 text-lg space-y-2">
+            <li>Comprehensive course covering modern HTML/CSS, JavaScript, React, MongoDB, NextJS and Node.js.</li>
+            <li>Developed several mini-projects applying learned concepts.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section min-h-screen flex items-center justify-center py-16 px-4">
+    <div class="max-w-xl mx-auto text-center bg-purple-800/20 p-10 rounded-xl shadow-xl border border-purple-700">
+      <h2 class="text-5xl md:text-6xl font-bold text-purple-200 mb-8 futuristic-heading">Get In Touch</h2>
+      <p class="text-lg md:text-xl text-purple-300 mb-8">
+        Have a project in mind, a question, or just want to connect? Feel free to reach out! I'm always open to new opportunities and collaborations.
+      </p>
+      
+      <form action="YOUR_FORM_SUBMISSION_ENDPOINT" method="POST" id="contact-form" class="space-y-6">
+        <div>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            placeholder="Your Name" 
+            required 
+            class="w-full p-4 bg-purple-900/50 border border-purple-600 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
+          />
+        </div>
+        <div>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="Your Email" 
+            required 
+            class="w-full p-4 bg-purple-900/50 border border-purple-600 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
+          />
+        </div>
+        <div>
+          <textarea 
+            id="message" 
+            name="message" 
+            rows="6" 
+            placeholder="Your Message" 
+            required 
+            class="w-full p-4 bg-purple-900/50 border border-purple-600 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
+          ></textarea>
+        </div>
+        <button 
+          type="submit" 
+          class="px-10 py-4 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25 text-xl futuristic-heading"
+        >
+          Send Message <i class="fas fa-paper-plane ml-2"></i>
+        </button>
+      </form>
+
+      <div class="mt-12 text-purple-300 text-xl space-y-4">
+        <p><i class="fas fa-envelope mr-3 text-purple-400"></i><a href="mailto:mdhanansjd@gmail.com" class="hover:text-purple-200 transition-colors duration-300">mdhanansjd@gmail.com</a></p>
+        <p><i class="fab fa-linkedin mr-3 text-purple-400"></i><a href="https://www.linkedin.com/in/mdhnnsjd/" target="_blank" class="hover:text-purple-200 transition-colors duration-300">linkedin.com/mdhnnsjd</a></p>
+        <p><i class="fab fa-github mr-3 text-purple-400"></i><a href="https://github.com/MdHananSjd" target="_blank" class="hover:text-purple-200 transition-colors duration-300">github.com/MdHananSjd</a></p>
       </div>
     </div>
   </section>
@@ -273,40 +513,70 @@
     }
     
     typeText();
-    document.addEventListener('DOMContentLoaded', () => {
-      const htmlElement = document.documentElement; // Get the HTML element
 
-      // 1. Fade In on Page Load
-      // Remove no-scroll if it was added from a previous fade-out (e.g., if user used back button)
-      htmlElement.classList.remove('no-scroll'); 
-      document.body.style.opacity = '1'; // Trigger fade-in
-
-      // 2. Fade Out on Navigation
-      const navLinks = document.querySelectorAll('nav a, .mobile-menu a');
-      const fadeOutDuration = 500; // milliseconds, MUST MATCH CSS transition duration for .fade-out-active
-
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-          const targetUrl = this.href;
-
-          // Check if it's an external link or a download
-          if (this.target === '_blank' || this.download || targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:')) {
-            return; // Let browser handle it normally without fade-out
-          }
-
-          event.preventDefault(); // Prevent default navigation immediately
-
-          htmlElement.classList.add('no-scroll'); // Prevent scrolling during transition
-          document.body.classList.add('fade-out-active'); // Apply fade-out class
-
-          setTimeout(() => {
-            window.location.href = targetUrl; // Navigate AFTER fade-out animation should complete
-          }, fadeOutDuration); 
-        });
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
       });
     });
 
-    
+    // Intersection Observer for section animations and active navigation
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observerOptions = {
+      threshold: 0.3,
+      rootMargin: '0px 0px -50% 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // Update active navigation
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Page load fade-in
+    document.addEventListener('DOMContentLoaded', () => {
+      const htmlElement = document.documentElement;
+      htmlElement.classList.remove('no-scroll'); 
+      document.body.style.opacity = '1';
+      
+      // Trigger initial section visibility
+      setTimeout(() => {
+        document.querySelector('#home').classList.add('visible');
+      }, 100);
+    });
+
+    // Handle form submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Add your form submission logic here
+      alert('Thank you for your message! I will get back to you soon.');
+      this.reset();
+    });
   </script>
 </body>
 </html>
