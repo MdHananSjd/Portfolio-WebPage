@@ -12,6 +12,26 @@
       font-family: 'Exo 2', sans-serif;
       opacity: 0;
       transition: opacity 0.5s ease-out;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Matrix Rain Canvas */
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Ensure content is above the canvas */
+    header, section, footer {
+      position: relative;
+      z-index: 1;
     }
 
     .futuristic-heading{
@@ -149,6 +169,8 @@
   </style>
 </head>
 <body class="bg-black text-white body-hidden">
+  <!-- Matrix Rain Canvas -->
+  <canvas id="matrixCanvas"></canvas>
   <header class="fixed top-0 w-full bg-purple-900/40 backdrop-blur-sm text-white shadow-lg z-50">
     <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="text-xl font-bold text-purple-200 futuristic-heading"> <a href="#home">Hanan</a></div>
@@ -578,6 +600,196 @@
       alert('Thank you for your message! I will get back to you soon.');
       this.reset();
     });
+
+    // Matrix Rain Effect
+    class MatrixRain {
+      constructor() {
+        this.canvas = document.getElementById('matrixCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?/~`!';
+        this.drops = [];
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.ripples = [];
+        this.fontSize = 16;
+        this.columns = 0;
+        this.init();
+      }
+
+      init() {
+        this.resize();
+        this.createDrops();
+        this.animate();
+        
+        // Event listeners
+        window.addEventListener('resize', () => this.resize());
+        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        document.addEventListener('click', (e) => this.handleClick(e));
+        
+        // Touch support for mobile
+        document.addEventListener('touchmove', (e) => {
+          e.preventDefault();
+          const touch = e.touches[0];
+          this.handleMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+        }, { passive: false });
+        
+        document.addEventListener('touchstart', (e) => {
+          const touch = e.touches[0];
+          this.handleClick({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+      }
+
+      resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        this.columns = Math.floor(this.canvas.width / this.fontSize);
+        this.createDrops();
+      }
+
+      createDrops() {
+        this.drops = [];
+        for (let i = 0; i < this.columns; i++) {
+          this.drops[i] = {
+            x: i * this.fontSize,
+            y: Math.random() * -this.canvas.height,
+            speed: 1 + Math.random() * 2,
+            length: 10 + Math.random() * 20,
+            chars: [],
+            opacity: 0.1 + Math.random() * 0.9
+          };
+          
+          // Initialize characters for this drop
+          for (let j = 0; j < this.drops[i].length; j++) {
+            this.drops[i].chars[j] = {
+              char: this.getRandomChar(),
+              opacity: 1 - (j / this.drops[i].length),
+              brightness: 1 - (j / this.drops[i].length)
+            };
+          }
+        }
+      }
+
+      getRandomChar() {
+        return this.characters[Math.floor(Math.random() * this.characters.length)];
+      }
+
+      handleMouseMove(e) {
+        this.mouseX = e.clientX;
+        this.mouseY = e.clientY;
+      }
+
+      handleClick(e) {
+        // Create ripple effect
+        this.ripples.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 0,
+          maxRadius: 150,
+          speed: 2,
+          opacity: 1
+        });
+      }
+
+      updateRipples() {
+        this.ripples = this.ripples.filter(ripple => {
+          ripple.radius += ripple.speed;
+          ripple.opacity -= 0.01;
+          return ripple.opacity > 0;
+        });
+      }
+
+      drawRipples() {
+        this.ripples.forEach(ripple => {
+          this.ctx.beginPath();
+          this.ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
+          this.ctx.strokeStyle = `rgba(168, 85, 247, ${ripple.opacity})`;
+          this.ctx.lineWidth = 1;
+          this.ctx.stroke();
+        });
+      }
+
+      animate() {
+        // Create fade effect
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.updateRipples();
+        this.drawRipples();
+
+        // Update and draw drops
+        this.drops.forEach(drop => {
+          // Update position
+          drop.y += drop.speed;
+          
+          // Reset drop if it goes off screen
+          if (drop.y > this.canvas.height + drop.length * this.fontSize) {
+            drop.y = -drop.length * this.fontSize;
+            drop.chars.forEach(char => {
+              char.char = this.getRandomChar();
+            });
+          }
+
+          // Draw characters
+          drop.chars.forEach((char, index) => {
+            const y = drop.y - index * this.fontSize;
+            
+            if (y >= -this.fontSize && y <= this.canvas.height) {
+              // Calculate distance from mouse for glow effect
+              const distance = Math.sqrt(
+                Math.pow(drop.x - this.mouseX, 2) + 
+                Math.pow(y - this.mouseY, 2)
+              );
+              
+              let glowIntensity = 0;
+              if (distance < 80) {
+                glowIntensity = 1 - (distance / 80);
+              }
+
+              // Check if ripple affects this character
+              this.ripples.forEach(ripple => {
+                const rippleDistance = Math.sqrt(
+                  Math.pow(drop.x - ripple.x, 2) + 
+                  Math.pow(y - ripple.y, 2)
+                );
+                if (Math.abs(rippleDistance - ripple.radius) < 15) {
+                  glowIntensity = Math.max(glowIntensity, ripple.opacity * 0.6);
+                }
+              });
+
+              // Draw glow effect
+              if (glowIntensity > 0) {
+                this.ctx.shadowColor = '#a855f7';
+                this.ctx.shadowBlur = 8 * glowIntensity;
+              } else {
+                this.ctx.shadowBlur = 0;
+              }
+
+              // Calculate color based on position and glow
+              const baseOpacity = char.opacity * drop.opacity;
+              const finalOpacity = Math.min(1, baseOpacity + glowIntensity * 0.3);
+              
+              // Purple gradient based on position - brighter at top, darker at bottom
+              const purpleIntensity = char.brightness;
+              const r = Math.floor(168 * purpleIntensity);
+              const g = Math.floor(85 * purpleIntensity);
+              const b = Math.floor(247 * purpleIntensity);
+              
+              this.ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${finalOpacity})`;
+              this.ctx.font = `${this.fontSize}px 'Courier New', monospace`;
+              this.ctx.fillText(char.char, drop.x, y);
+            }
+          });
+
+          // Reset shadow
+          this.ctx.shadowBlur = 0;
+        });
+
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+
+    // Initialize Matrix Rain
+    new MatrixRain();
   </script>
 </body>
 </html>
