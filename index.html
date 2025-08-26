@@ -17,6 +17,18 @@
       overflow-x: hidden;
     }
 
+    /* Particle Background Canvas */
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      background: black;
+    }
+
     /* Fix navbar and footer positioning */
     header {
       position: fixed !important;
@@ -179,6 +191,8 @@
   </style>
 </head>
 <body class="bg-black text-white body-hidden">
+  <!-- Particle Background Canvas -->
+  <canvas id="particleCanvas"></canvas>
   <header class="fixed top-0 w-full bg-purple-900/40 backdrop-blur-sm text-white shadow-lg z-50">
     <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="text-xl font-bold text-purple-200 futuristic-heading"> <a href="#home">Hanan</a></div>
@@ -609,6 +623,254 @@
       alert('Thank you for your message! I will get back to you soon.');
       this.reset();
     });
+
+    // Particle Background System
+    class ParticleBackground {
+      constructor() {
+        this.canvas = document.getElementById('particleCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.mouseRadius = 80;
+        this.gridSpacing = 40; // Distance between grid points
+        this.init();
+      }
+
+      init() {
+        this.resize();
+        this.createGrid();
+        this.animate();
+        
+        // Event listeners
+        window.addEventListener('resize', () => this.resize());
+        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        document.addEventListener('click', (e) => this.handleClick(e));
+        
+        // Touch support for mobile
+        document.addEventListener('touchmove', (e) => {
+          const touch = e.touches[0];
+          this.handleMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+        
+        document.addEventListener('touchstart', (e) => {
+          const touch = e.touches[0];
+          this.handleClick({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+      }
+
+      resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        this.createGrid();
+      }
+
+      createGrid() {
+        this.particles = [];
+        const cols = Math.ceil(this.canvas.width / this.gridSpacing);
+        const rows = Math.ceil(this.canvas.height / this.gridSpacing);
+        
+        for (let row = 0; row <= rows; row++) {
+          for (let col = 0; col <= cols; col++) {
+            const x = col * this.gridSpacing;
+            const y = row * this.gridSpacing;
+            
+            this.particles.push({
+              x: x,
+              y: y,
+              originalX: x,
+              originalY: y,
+              radius: 1.5,
+              color: '#E0E0E0', // Very light white/purple
+              hoverGlow: 0,
+              clickGlow: 0
+            });
+          }
+        }
+      }
+
+      handleMouseMove(e) {
+        this.mouseX = e.clientX;
+        this.mouseY = e.clientY;
+        
+        // Update hover effects for grid distortion
+        this.particles.forEach(particle => {
+          const distance = Math.sqrt(
+            Math.pow(particle.x - this.mouseX, 2) + 
+            Math.pow(particle.y - this.mouseY, 2)
+          );
+          
+          if (distance < this.mouseRadius) {
+            const force = (this.mouseRadius - distance) / this.mouseRadius;
+            const angle = Math.atan2(particle.y - this.mouseY, particle.x - this.mouseX);
+            
+            // Repel particles from mouse
+            particle.x = particle.originalX + Math.cos(angle) * force * 15;
+            particle.y = particle.originalY + Math.sin(angle) * force * 15;
+            
+            particle.hoverGlow = Math.max(particle.hoverGlow, force * 0.8);
+          } else {
+            // Return to original position
+            particle.x += (particle.originalX - particle.x) * 0.1;
+            particle.y += (particle.originalY - particle.y) * 0.1;
+            particle.hoverGlow = Math.max(0, particle.hoverGlow - 0.05);
+          }
+        });
+      }
+
+      handleClick(e) {
+        // Create subtle click effect
+        this.particles.forEach(particle => {
+          const distance = Math.sqrt(
+            Math.pow(particle.x - e.clientX, 2) + 
+            Math.pow(particle.y - e.clientY, 2)
+          );
+          
+          if (distance < 120) {
+            const intensity = 1 - (distance / 120);
+            particle.clickGlow = Math.max(particle.clickGlow, intensity * 0.6);
+          }
+        });
+      }
+
+      updateParticles() {
+        this.particles.forEach(particle => {
+          // Fade click glow
+          particle.clickGlow = Math.max(0, particle.clickGlow - 0.02);
+        });
+      }
+
+      drawConnections() {
+        const cols = Math.ceil(this.canvas.width / this.gridSpacing);
+        const rows = Math.ceil(this.canvas.height / this.gridSpacing);
+        
+        // Draw horizontal connections
+        for (let row = 0; row <= rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const index1 = row * (cols + 1) + col;
+            const index2 = row * (cols + 1) + col + 1;
+            
+            if (index1 < this.particles.length && index2 < this.particles.length) {
+              const particleA = this.particles[index1];
+              const particleB = this.particles[index2];
+              
+              // Calculate line opacity based on mouse proximity
+              const mouseDistance = this.distanceToLine(
+                this.mouseX, this.mouseY,
+                particleA.x, particleA.y,
+                particleB.x, particleB.y
+              );
+              
+              let opacity = 0.15; // Very subtle base opacity
+              if (mouseDistance < 40) {
+                opacity = Math.max(opacity, 0.4 * (1 - mouseDistance / 40));
+              }
+              
+              this.ctx.strokeStyle = `rgba(224, 224, 224, ${opacity})`;
+              this.ctx.lineWidth = 0.5;
+              this.ctx.beginPath();
+              this.ctx.moveTo(particleA.x, particleA.y);
+              this.ctx.lineTo(particleB.x, particleB.y);
+              this.ctx.stroke();
+            }
+          }
+        }
+        
+        // Draw vertical connections
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col <= cols; col++) {
+            const index1 = row * (cols + 1) + col;
+            const index2 = (row + 1) * (cols + 1) + col;
+            
+            if (index1 < this.particles.length && index2 < this.particles.length) {
+              const particleA = this.particles[index1];
+              const particleB = this.particles[index2];
+              
+              // Calculate line opacity based on mouse proximity
+              const mouseDistance = this.distanceToLine(
+                this.mouseX, this.mouseY,
+                particleA.x, particleA.y,
+                particleB.x, particleB.y
+              );
+              
+              let opacity = 0.15; // Very subtle base opacity
+              if (mouseDistance < 40) {
+                opacity = Math.max(opacity, 0.4 * (1 - mouseDistance / 40));
+              }
+              
+              this.ctx.strokeStyle = `rgba(224, 224, 224, ${opacity})`;
+              this.ctx.lineWidth = 0.5;
+              this.ctx.beginPath();
+              this.ctx.moveTo(particleA.x, particleA.y);
+              this.ctx.lineTo(particleB.x, particleB.y);
+              this.ctx.stroke();
+            }
+          }
+        }
+      }
+
+      distanceToLine(px, py, x1, y1, x2, y2) {
+        const A = px - x1;
+        const B = py - y1;
+        const C = x2 - x1;
+        const D = y2 - y1;
+        
+        const dot = A * C + B * D;
+        const lenSq = C * C + D * D;
+        let param = -1;
+        
+        if (lenSq !== 0) param = dot / lenSq;
+        
+        let xx, yy;
+        
+        if (param < 0) {
+          xx = x1;
+          yy = y1;
+        } else if (param > 1) {
+          xx = x2;
+          yy = y2;
+        } else {
+          xx = x1 + param * C;
+          yy = y1 + param * D;
+        }
+        
+        const dx = px - xx;
+        const dy = py - yy;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      drawParticles() {
+        this.particles.forEach(particle => {
+          // Calculate total glow effect
+          const totalGlow = Math.max(particle.hoverGlow, particle.clickGlow);
+          
+          // Very subtle base opacity
+          let opacity = 0.5;
+          if (totalGlow > 0) {
+            opacity = Math.max(opacity, 0.6 * totalGlow);
+          }
+          
+          this.ctx.fillStyle = `rgba(224, 224, 224, ${opacity})`;
+          this.ctx.beginPath();
+          this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+          this.ctx.fill();
+        });
+      }
+
+      animate() {
+        // Clear canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.updateParticles();
+        this.drawConnections();
+        this.drawParticles();
+        
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+
+    // Initialize Particle Background
+    new ParticleBackground();
   </script>
 </body>
 </html>
